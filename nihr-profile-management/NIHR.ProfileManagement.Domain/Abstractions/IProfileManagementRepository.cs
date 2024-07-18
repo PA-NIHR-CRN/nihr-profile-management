@@ -4,11 +4,11 @@ namespace NIHR.ProfileManagement.Domain.Abstractions
 {
     public interface IProfileManagementRepository
     {
-        Task<CreatePersonResponse> CreatePersonAsync(CreatePersonRequest request);
+        Task<CreateProfileResponse> CreateProfileAsync(CreateProfileRequest request);
     }
 
     public interface IProfileManagementService
     {
-        Task<CreatePersonResponse> CreatePersonAsync(CreatePersonRequest request);
+        Task<CreateProfileResponse> CreatePersonAsync(CreateProfileRequest request);
     }
 }

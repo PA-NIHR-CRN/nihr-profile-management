@@ -5,9 +5,16 @@ namespace NIHR.ProfileManagement.Domain.Services
 {
     public class ProfileManagementService : IProfileManagementService
     {
-        public Task<CreatePersonResponse> CreatePersonAsync(CreatePersonRequest request)
+        private readonly IProfileManagementRepository _profileManagementRepository;
+
+        public ProfileManagementService(IProfileManagementRepository profileManagementRepository)
         {
-            throw new NotImplementedException();
+            _profileManagementRepository = profileManagementRepository;
+        }
+
+        public async Task<CreateProfileResponse> CreatePersonAsync(CreateProfileRequest request)
+        {
+            return await _profileManagementRepository.CreateProfileAsync(request);
         }
     }
 }

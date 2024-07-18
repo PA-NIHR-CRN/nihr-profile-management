@@ -6,28 +6,45 @@ namespace NIHR.ProfileManagement.Infrastructure.Repository.Models
         public DateTime Created { get; set; } = DateTime.Now;
     }
 
-    public class PersonEntity : DbEntity
+    public class ProfileInfoDbEntity : DbEntity
     {
         public int Id { get; set; }
 
-        public string Firstname { get; set; }
+        public virtual ICollection<ProfileIdentity> Identities { get; set; }
 
-        public string Lastname { get; set; }
+        public virtual ICollection<PersonNameDbEntity> Names { get; set; }
 
-        public PersonEntity()
+        public ProfileInfoDbEntity()
         {
-            Firstname = "";
-            Lastname = "";
+            Identities = new HashSet<ProfileIdentity>();
+            Names = new HashSet<PersonNameDbEntity>();
         }
     }
 
-    public class PersonIdentityIdentifierEntity : DbEntity
+    public partial class PersonNameDbEntity : DbEntity
+    {
+        public int Id { get; set; }
+
+        public int ProfileInfoId { get; set; }
+
+        public string Family { get; set; } = null!;
+
+        public string Given { get; set; } = null!;
+
+        public virtual ProfileInfoDbEntity ProfileInfo { get; set; } = null!;
+    }
+
+    public class ProfileIdentity : DbEntity
     {
         public int Id { get; set; }
 
         public string Sub { get; set; }
 
-        public PersonIdentityIdentifierEntity()
+        public int ProfileInfoId { get; set; }
+
+        public virtual ProfileInfoDbEntity ProfileInfo { get; set; } = null!;
+
+        public ProfileIdentity()
         {
             Sub = "";
         }
