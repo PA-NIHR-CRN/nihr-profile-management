@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -7,6 +6,7 @@ using NIHR.ProfileManagement.Api.Configuration;
 using NIHR.ProfileManagement.Domain.Abstractions;
 using NIHR.ProfileManagement.Domain.Services;
 using NIHR.ProfileManagement.Infrastructure;
+using NIHR.ProfileManagement.Infrastructure.MessageBus;
 using NIHR.ProfileManagement.Infrastructure.Repository;
 using Swashbuckle.AspNetCore.Filters;
 using System.Reflection;
@@ -83,8 +83,8 @@ public class Startup
         services.AddSwaggerGen(swagger => {
             swagger.SwaggerDoc("v1", new OpenApiInfo()
             {
-                Title = "Study Management API spec.",
-                Version = "1.2"
+                Title = "Profile Management API spec.",
+                Version = "1.0"
             });
 
             var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
@@ -100,6 +100,10 @@ public class Startup
 
         services.AddScoped<IProfileManagementRepository, ProfileManagementRepository>();
         services.AddScoped<IProfileManagementService, ProfileManagementService>();
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
+        services.AddScoped<IProfileOutboxRepository, ProfileOutboxRepository>();
+        services.AddScoped<INsipMessageHelper, ProfileKafkaMessageProducer>();
+        services.AddScoped<IProfileEventMessagePublisher, ProfileKafkaMessageProducer>();
 
         // DbContext
         services.AddDbContext<ProfileManagementDbContext>(options =>
@@ -159,12 +163,12 @@ public class Startup
     /// for authentication.
     /// Configuration is controlled via appsettings values.
     /// </summary>
-    /// <param name="studyManagementApiSettings"></param>
+    /// <param name="apiSettings"></param>
     /// <returns></returns>
-    private JwtBearerEvents? ConfigureForLocalDevelopment(ProfileManagementApiSettings studyManagementApiSettings)
+    private JwtBearerEvents? ConfigureForLocalDevelopment(ProfileManagementApiSettings apiSettings)
     {
-        if (studyManagementApiSettings.JwtBearer.JwtBearerOverride == null
-            || !studyManagementApiSettings.JwtBearer.JwtBearerOverride.OverrideEvents)
+        if (apiSettings.JwtBearer.JwtBearerOverride == null
+            || !apiSettings.JwtBearer.JwtBearerOverride.OverrideEvents)
         {
             return null;
         }
@@ -183,7 +187,7 @@ public class Startup
             {
                 var claims = new List<Claim>();
 
-                foreach (var claimConfig in studyManagementApiSettings.JwtBearer.JwtBearerOverride.ClaimsOverride)
+                foreach (var claimConfig in apiSettings.JwtBearer.JwtBearerOverride.ClaimsOverride)
                 {
                     claims.Add(new Claim(claimConfig.Name, claimConfig.Description));
                 }

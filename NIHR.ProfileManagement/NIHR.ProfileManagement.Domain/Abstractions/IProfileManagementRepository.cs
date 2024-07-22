@@ -9,6 +9,6 @@ namespace NIHR.ProfileManagement.Domain.Abstractions
 
     public interface IProfileManagementService
     {
-        Task<CreateProfileResponse> CreatePersonAsync(CreateProfileRequest request);
+        Task<CreateProfileResponse> CreatePersonAsync(CreateProfileRequest request, CancellationToken cancellationToken);
     }
 }

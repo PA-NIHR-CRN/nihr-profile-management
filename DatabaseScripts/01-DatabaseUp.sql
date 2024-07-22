@@ -10,7 +10,7 @@ DROP PROCEDURE IF EXISTS MigrationsScript;
 DELIMITER //
 CREATE PROCEDURE MigrationsScript()
 BEGIN
-    IF NOT EXISTS(SELECT 1 FROM `__EFMigrationsHistory` WHERE `MigrationId` = '20240718135845_01-Initial') THEN
+    IF NOT EXISTS(SELECT 1 FROM `__EFMigrationsHistory` WHERE `MigrationId` = '20240722134138_01-Initial') THEN
 
     ALTER DATABASE CHARACTER SET utf8mb4;
 
@@ -24,7 +24,31 @@ DROP PROCEDURE IF EXISTS MigrationsScript;
 DELIMITER //
 CREATE PROCEDURE MigrationsScript()
 BEGIN
-    IF NOT EXISTS(SELECT 1 FROM `__EFMigrationsHistory` WHERE `MigrationId` = '20240718135845_01-Initial') THEN
+    IF NOT EXISTS(SELECT 1 FROM `__EFMigrationsHistory` WHERE `MigrationId` = '20240722134138_01-Initial') THEN
+
+    CREATE TABLE `outboxEntry` (
+        `id` int NOT NULL AUTO_INCREMENT,
+        `payload` json NOT NULL,
+        `sourcesystem` longtext CHARACTER SET utf8mb4 NOT NULL,
+        `eventtype` longtext CHARACTER SET utf8mb4 NOT NULL,
+        `processingStartDate` datetime(6) NULL,
+        `processingCompletedDate` datetime(6) NULL,
+        `status` int NOT NULL,
+        `created` datetime(6) NOT NULL,
+        CONSTRAINT `PK_outboxEntry` PRIMARY KEY (`id`)
+    ) CHARACTER SET=utf8mb4;
+
+    END IF;
+END //
+DELIMITER ;
+CALL MigrationsScript();
+DROP PROCEDURE MigrationsScript;
+
+DROP PROCEDURE IF EXISTS MigrationsScript;
+DELIMITER //
+CREATE PROCEDURE MigrationsScript()
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM `__EFMigrationsHistory` WHERE `MigrationId` = '20240722134138_01-Initial') THEN
 
     CREATE TABLE `profileInfo` (
         `Id` int NOT NULL AUTO_INCREMENT,
@@ -42,7 +66,7 @@ DROP PROCEDURE IF EXISTS MigrationsScript;
 DELIMITER //
 CREATE PROCEDURE MigrationsScript()
 BEGIN
-    IF NOT EXISTS(SELECT 1 FROM `__EFMigrationsHistory` WHERE `MigrationId` = '20240718135845_01-Initial') THEN
+    IF NOT EXISTS(SELECT 1 FROM `__EFMigrationsHistory` WHERE `MigrationId` = '20240722134138_01-Initial') THEN
 
     CREATE TABLE `profileIdentity` (
         `Id` int NOT NULL AUTO_INCREMENT,
@@ -63,7 +87,7 @@ DROP PROCEDURE IF EXISTS MigrationsScript;
 DELIMITER //
 CREATE PROCEDURE MigrationsScript()
 BEGIN
-    IF NOT EXISTS(SELECT 1 FROM `__EFMigrationsHistory` WHERE `MigrationId` = '20240718135845_01-Initial') THEN
+    IF NOT EXISTS(SELECT 1 FROM `__EFMigrationsHistory` WHERE `MigrationId` = '20240722134138_01-Initial') THEN
 
     CREATE TABLE `profileInfoPersonName` (
         `Id` int NOT NULL AUTO_INCREMENT,
@@ -85,7 +109,7 @@ DROP PROCEDURE IF EXISTS MigrationsScript;
 DELIMITER //
 CREATE PROCEDURE MigrationsScript()
 BEGIN
-    IF NOT EXISTS(SELECT 1 FROM `__EFMigrationsHistory` WHERE `MigrationId` = '20240718135845_01-Initial') THEN
+    IF NOT EXISTS(SELECT 1 FROM `__EFMigrationsHistory` WHERE `MigrationId` = '20240722134138_01-Initial') THEN
 
     CREATE INDEX `IX_profileIdentity_profileInfoId` ON `profileIdentity` (`profileInfoId`);
 
@@ -99,7 +123,7 @@ DROP PROCEDURE IF EXISTS MigrationsScript;
 DELIMITER //
 CREATE PROCEDURE MigrationsScript()
 BEGIN
-    IF NOT EXISTS(SELECT 1 FROM `__EFMigrationsHistory` WHERE `MigrationId` = '20240718135845_01-Initial') THEN
+    IF NOT EXISTS(SELECT 1 FROM `__EFMigrationsHistory` WHERE `MigrationId` = '20240722134138_01-Initial') THEN
 
     CREATE INDEX `IX_profileInfoPersonName_profileInfoId` ON `profileInfoPersonName` (`profileInfoId`);
 
@@ -113,10 +137,10 @@ DROP PROCEDURE IF EXISTS MigrationsScript;
 DELIMITER //
 CREATE PROCEDURE MigrationsScript()
 BEGIN
-    IF NOT EXISTS(SELECT 1 FROM `__EFMigrationsHistory` WHERE `MigrationId` = '20240718135845_01-Initial') THEN
+    IF NOT EXISTS(SELECT 1 FROM `__EFMigrationsHistory` WHERE `MigrationId` = '20240722134138_01-Initial') THEN
 
     INSERT INTO `__EFMigrationsHistory` (`MigrationId`, `ProductVersion`)
-    VALUES ('20240718135845_01-Initial', '6.0.25');
+    VALUES ('20240722134138_01-Initial', '6.0.25');
 
     END IF;
 END //

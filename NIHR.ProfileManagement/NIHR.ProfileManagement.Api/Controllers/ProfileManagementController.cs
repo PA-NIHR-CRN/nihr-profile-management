@@ -20,7 +20,7 @@ namespace NIHR.ProfileManagement.Api.Controllers
         [ProducesResponseType(typeof(CreateUserResponseDto), StatusCodes.Status201Created)]
         [SwaggerRequestExample(typeof(CreateUserRequestDto), typeof(CreateNewProfileRequestExample))]
         [HttpPost]
-        public async Task<IActionResult> CreateAsync(CreateUserRequestDto createUserRequestDto)
+        public async Task<IActionResult> CreateAsync(CreateUserRequestDto createUserRequestDto, CancellationToken cancellationToken)
         {
             var createPersonRequest = new CreateProfileRequest{
                 firstname = createUserRequestDto.firstname,
@@ -28,7 +28,7 @@ namespace NIHR.ProfileManagement.Api.Controllers
                 sub = createUserRequestDto.sub
             };
 
-            var result = await _profileManagementService.CreatePersonAsync(createPersonRequest);
+            var result = await _profileManagementService.CreatePersonAsync(createPersonRequest, cancellationToken);
 
             return Ok(result);
         }

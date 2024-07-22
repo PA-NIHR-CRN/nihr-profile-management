@@ -19,6 +19,49 @@ namespace NIHR.ProfileManagement.Infrastructure.Migrations
                 .HasAnnotation("ProductVersion", "6.0.25")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
+            modelBuilder.Entity("NIHR.ProfileManagement.Infrastructure.Repository.Models.OutboxRecordDbEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("id");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("created");
+
+                    b.Property<string>("EventType")
+                        .IsRequired()
+                        .HasColumnType("longtext")
+                        .HasColumnName("eventtype");
+
+                    b.Property<string>("Payload")
+                        .IsRequired()
+                        .HasColumnType("json")
+                        .HasColumnName("payload");
+
+                    b.Property<DateTime?>("ProcessingCompletedDate")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("processingCompletedDate");
+
+                    b.Property<DateTime?>("ProcessingStartDate")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("processingStartDate");
+
+                    b.Property<string>("SourceSystem")
+                        .IsRequired()
+                        .HasColumnType("longtext")
+                        .HasColumnName("sourcesystem");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int")
+                        .HasColumnName("status");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("outboxEntry", (string)null);
+                });
+
             modelBuilder.Entity("NIHR.ProfileManagement.Infrastructure.Repository.Models.PersonNameDbEntity", b =>
                 {
                     b.Property<int>("Id")

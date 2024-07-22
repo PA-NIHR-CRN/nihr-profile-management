@@ -34,9 +34,9 @@ namespace NIHR.ProfileManagement.Infrastructure.Repository
             profileInfoDbEntity.Names.Add(personNameDbEntity);
             profileInfoDbEntity.Identities.Add(profileIdentifier);
 
-            _context.Profiles.Add(profileInfoDbEntity);
+            await _context.Profiles.AddAsync(profileInfoDbEntity);
 
-            await _context.SaveChangesAsync();
+            //await _context.SaveChangesAsync();
 
             return new CreateProfileResponse() {
                 Profile = new ProfileInfo(profileInfoDbEntity.Created,

@@ -14,6 +14,29 @@ namespace NIHR.ProfileManagement.Infrastructure.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
+                name: "outboxEntry",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    payload = table.Column<string>(type: "json", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    sourcesystem = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    eventtype = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    processingStartDate = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    processingCompletedDate = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    status = table.Column<int>(type: "int", nullable: false),
+                    created = table.Column<DateTime>(type: "datetime(6)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_outboxEntry", x => x.id);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
                 name: "profileInfo",
                 columns: table => new
                 {
@@ -88,6 +111,9 @@ namespace NIHR.ProfileManagement.Infrastructure.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "outboxEntry");
+
             migrationBuilder.DropTable(
                 name: "profileIdentity");
 

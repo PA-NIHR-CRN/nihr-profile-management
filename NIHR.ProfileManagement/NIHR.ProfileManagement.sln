@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIHR.ProfileManagement.Api"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIHR.ProfileManagement.Authorizer", "NIHR.ProfileManagement.Authorizer\NIHR.ProfileManagement.Authorizer.csproj", "{ED4DEFCB-EFAA-4DFF-9FCE-DBCCB6FAA405}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIHR.ProfileManagement.OutboxProcessor", "NIHR.ProfileManagement.OutboxProcessor\NIHR.ProfileManagement.OutboxProcessor.csproj", "{D9E843EE-A528-4A1B-9604-D0F4908C82EB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{ED4DEFCB-EFAA-4DFF-9FCE-DBCCB6FAA405}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ED4DEFCB-EFAA-4DFF-9FCE-DBCCB6FAA405}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ED4DEFCB-EFAA-4DFF-9FCE-DBCCB6FAA405}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D9E843EE-A528-4A1B-9604-D0F4908C82EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9E843EE-A528-4A1B-9604-D0F4908C82EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9E843EE-A528-4A1B-9604-D0F4908C82EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9E843EE-A528-4A1B-9604-D0F4908C82EB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
