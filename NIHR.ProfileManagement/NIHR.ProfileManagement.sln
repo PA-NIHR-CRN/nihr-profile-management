@@ -5,9 +5,11 @@ VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIHR.ProfileManagement.Domain", "NIHR.ProfileManagement.Domain\NIHR.ProfileManagement.Domain.csproj", "{83B3BA01-0B38-4849-927A-5638A77F077B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIHR.ProfileManagement.Infrastructure", "NIHR.ProfileManagement.Infrastructure\NIHR.ProfileManagement.Infrastructure.csproj", "{B957052F-68AB-4B25-8DC5-C242FBC7AB13}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIHR.ProfileManagement.Infrastructure", "NIHR.ProfileManagement.Infrastructure\NIHR.ProfileManagement.Infrastructure.csproj", "{B957052F-68AB-4B25-8DC5-C242FBC7AB13}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIHR.ProfileManagement.Api", "NIHR.ProfileManagement.Api\NIHR.ProfileManagement.Api.csproj", "{18479683-6DC8-40BF-95AE-353D367FE378}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIHR.ProfileManagement.Authorizer", "NIHR.ProfileManagement.Authorizer\NIHR.ProfileManagement.Authorizer.csproj", "{ED4DEFCB-EFAA-4DFF-9FCE-DBCCB6FAA405}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{18479683-6DC8-40BF-95AE-353D367FE378}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{18479683-6DC8-40BF-95AE-353D367FE378}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{18479683-6DC8-40BF-95AE-353D367FE378}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED4DEFCB-EFAA-4DFF-9FCE-DBCCB6FAA405}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED4DEFCB-EFAA-4DFF-9FCE-DBCCB6FAA405}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED4DEFCB-EFAA-4DFF-9FCE-DBCCB6FAA405}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED4DEFCB-EFAA-4DFF-9FCE-DBCCB6FAA405}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
