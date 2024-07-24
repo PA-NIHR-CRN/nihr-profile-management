@@ -26,8 +26,8 @@ namespace NIHR.ProfileManagement.Infrastructure.Repository
 
             var personNameDbEntity = new PersonNameDbEntity
             {
-                Family = request.lastname,
-                Given = request.firstname,
+                Family = request.Lastname,
+                Given = request.Firstname,
                 ProfileInfo = profileInfoDbEntity
             };
 

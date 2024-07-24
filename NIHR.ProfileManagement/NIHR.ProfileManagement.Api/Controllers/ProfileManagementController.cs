@@ -23,8 +23,8 @@ namespace NIHR.ProfileManagement.Api.Controllers
         public async Task<IActionResult> CreateAsync(CreateUserRequestDto createUserRequestDto, CancellationToken cancellationToken)
         {
             var createPersonRequest = new CreateProfileRequest{
-                firstname = createUserRequestDto.firstname,
-                lastname = createUserRequestDto.lastname,
+                Firstname = createUserRequestDto.firstname,
+                Lastname = createUserRequestDto.lastname,
                 sub = createUserRequestDto.sub
             };
 
