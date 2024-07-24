@@ -1,4 +1,16 @@
-﻿namespace NIHR.ProfileManagement.OutboxProcessor
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using NIHR.ProfileManagement.Domain.Abstractions;
+using NIHR.ProfileManagement.Domain.Configuration;
+using NIHR.ProfileManagement.Domain.Services;
+using NIHR.ProfileManagement.Infrastructure;
+using NIHR.ProfileManagement.Infrastructure.MessageBus;
+using NIHR.ProfileManagement.Infrastructure.Repository;
+using NIHR.ProfileManagement.OutboxProcessor.Configuration;
+
+namespace NIHR.ProfileManagement.OutboxProcessor
 {
     internal class Program
     {
@@ -10,8 +22,6 @@
                 .UseEnvironment(environmentName ?? "development")
                 .ConfigureAppConfiguration((_, builder) =>
                 {
-                    //builder.AddJsonFile("appsettings.json")
-                    //    .AddJsonFile($"appsettings.{environmentName}.json");
                     builder.Build();
                 })
                 .ConfigureServices((_, services) =>
@@ -21,16 +31,16 @@
                     services.AddOptions<MessageBusSettings>().Bind(_.Configuration.GetSection("MessageBus"));
                     services.AddOptions<OutboxProcessorSettings>().Bind(_.Configuration.GetSection("OutboxProcessor"));
 
-                    services.AddScoped<IStudyRegistryRepository, StudyRegistryRepository>();
-                    services.AddScoped<IStudyRecordOutboxRepository, StudyRecordOutboxRepository>();
-                    services.AddScoped<INsipGrisMessageHelper, StudyManagementKafkaMessageProducer>();
-                    services.AddScoped<IOutboxProcessor, StudyRecordOutboxProcessor>();
-                    services.AddScoped<IStudyEventMessagePublisher, StudyManagementKafkaMessageProducer>();
+                    services.AddScoped<IProfileManagementRepository, ProfileManagementRepository>();
+                    services.AddScoped<IProfileOutboxRepository, ProfileOutboxRepository>();
+                    services.AddScoped<INsipMessageHelper, ProfileKafkaMessageProducer>();
+                    services.AddScoped<IOutboxProcessor, ProfileOutboxProcessor>();
+                    services.AddScoped<IProfileEventMessagePublisher, ProfileKafkaMessageProducer>();
 
                     var outboxProcessorConfigurationSection = _.Configuration.GetSection("Data");
                     var databaseSettings = outboxProcessorConfigurationSection.Get<DatabaseSettings>();
 
-                    services.AddDbContext<StudyRegistryContext>(options =>
+                    services.AddDbContext<ProfileManagementDbContext>(options =>
                     {
                         // For local development, username/password included in connection string.
                         // For deployed lambda in AWS, password is retrieved from secret manager
@@ -39,7 +49,7 @@
                         if (!string.IsNullOrEmpty(databaseSettings?.PasswordSecretName))
                         {
                             // Retrieve password from AWS Secrets.
-                            var password = SharedApplicationnStartup.GetAwsSecretPassword(databaseSettings.PasswordSecretName);
+                            var password = SharedApplicationStartup.GetAwsSecretPassword(databaseSettings.PasswordSecretName);
 
                             connectionString = $"{databaseSettings.ConnectionString};password={password}";
                         }

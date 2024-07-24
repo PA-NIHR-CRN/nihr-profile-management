@@ -6,16 +6,16 @@ using NIHR.ProfileManagement.Domain.EnumsAndConstants;
 
 namespace NIHR.ProfileManagement.Domain.Services
 {
-    public class StudyRecordOutboxProcessor : IOutboxProcessor
+    public class ProfileOutboxProcessor : IOutboxProcessor
     {
         private readonly IProfileOutboxRepository _outboxRepository;
         private readonly IProfileEventMessagePublisher _profileEventMessagePublisher;
-        private readonly ILogger<StudyRecordOutboxProcessor> _logger;
+        private readonly ILogger<ProfileOutboxProcessor> _logger;
 
-        public StudyRecordOutboxProcessor(
+        public ProfileOutboxProcessor(
             IProfileOutboxRepository studyRecordOutboxRepository,
             IProfileEventMessagePublisher studyEventMessagePublisher,
-            ILogger<StudyRecordOutboxProcessor> logger)
+            ILogger<ProfileOutboxProcessor> logger)
         {
             this._outboxRepository = studyRecordOutboxRepository;
             this._profileEventMessagePublisher = studyEventMessagePublisher;
