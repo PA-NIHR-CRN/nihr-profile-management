@@ -25,7 +25,7 @@ namespace NIHR.ProfileManagement.Infrastructure.MessageBus
         {
             var nsipMessage = new NsipMessage<string>(eventData)
             {
-                NsipEventId = "1",
+                NsipEventId = Guid.NewGuid().ToString(),
                 NsipEventSourceSystemId = sourceSystem,
                 NsipEventType = eventType,
             };

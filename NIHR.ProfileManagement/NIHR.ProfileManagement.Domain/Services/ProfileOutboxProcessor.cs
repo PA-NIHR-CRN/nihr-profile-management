@@ -13,12 +13,12 @@ namespace NIHR.ProfileManagement.Domain.Services
         private readonly ILogger<ProfileOutboxProcessor> _logger;
 
         public ProfileOutboxProcessor(
-            IProfileOutboxRepository studyRecordOutboxRepository,
-            IProfileEventMessagePublisher studyEventMessagePublisher,
+            IProfileOutboxRepository outboxRepository,
+            IProfileEventMessagePublisher profileEventMessagePublisher,
             ILogger<ProfileOutboxProcessor> logger)
         {
-            this._outboxRepository = studyRecordOutboxRepository;
-            this._profileEventMessagePublisher = studyEventMessagePublisher;
+            this._outboxRepository = outboxRepository;
+            this._profileEventMessagePublisher = profileEventMessagePublisher;
             this._logger = logger;
         }
 
