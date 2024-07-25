@@ -13,7 +13,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIHR.ProfileManagement.Auth
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIHR.ProfileManagement.OutboxProcessor", "NIHR.ProfileManagement.OutboxProcessor\NIHR.ProfileManagement.OutboxProcessor.csproj", "{D9E843EE-A528-4A1B-9604-D0F4908C82EB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIHR.ProfileManagement.CognitoSignUpTrigger", "NIHR.ProfileManagement.CognitoSignUpTrigger\src\NIHR.ProfileManagement.CognitoSignUpTrigger\NIHR.ProfileManagement.CognitoSignUpTrigger.csproj", "{86465CCF-9048-4915-AA9E-F465D9A96B9E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIHR.ProfileManagement.CognitoSignUpTrigger", "NIHR.ProfileManagement.CognitoSignUpTrigger\src\NIHR.ProfileManagement.CognitoSignUpTrigger\NIHR.ProfileManagement.CognitoSignUpTrigger.csproj", "{86465CCF-9048-4915-AA9E-F465D9A96B9E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DatabaseScripts", "DatabaseScripts", "{8CDB625C-E6E6-455A-BA07-73F45D8B64D7}"
+	ProjectSection(SolutionItems) = preProject
+		..\DatabaseScripts\01-DatabaseUp.sql = ..\DatabaseScripts\01-DatabaseUp.sql
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

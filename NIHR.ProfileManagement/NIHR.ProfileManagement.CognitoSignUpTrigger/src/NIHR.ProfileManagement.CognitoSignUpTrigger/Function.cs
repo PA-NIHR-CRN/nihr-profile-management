@@ -4,11 +4,13 @@ using Amazon.Lambda.Core;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using NIHR.ProfileManagement.CognitoSignUpTrigger.Configuration;
+using Microsoft.Extensions.Logging;
 using NIHR.ProfileManagement.Domain.Abstractions;
+using NIHR.ProfileManagement.Domain.Configuration;
 using NIHR.ProfileManagement.Domain.Models;
 using NIHR.ProfileManagement.Domain.Services;
 using NIHR.ProfileManagement.Infrastructure;
+using NIHR.ProfileManagement.Infrastructure.MessageBus;
 using NIHR.ProfileManagement.Infrastructure.Repository;
 using System.Threading;
 
@@ -21,52 +23,49 @@ namespace NIHR.ProfileManagement.CognitoSignUpTrigger
     {
         private readonly IProfileManagementService _profileManagementService;
 
+        private IConfiguration Configuration { get; set; }
+
         public Function(IProfileManagementService profileManagementService)
         { 
             _profileManagementService = profileManagementService;
         }
 
-        public async Task<CognitoPreSignupEvent> FunctionHandler(CognitoPreSignupEvent input,
-            ILambdaContext context,
-            CancellationToken cancellationToken = default)
+        public Function()
         {
-            var firstname = input.Request.UserAttributes.FirstOrDefault(attr => attr.Key == "given_name").Value;
-            var lastname = input.Request.UserAttributes.FirstOrDefault(attr => attr.Key == "family_name").Value;
+            Configuration = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .AddEnvironmentVariables()
+                .Build();
 
-            var createPersonRequest = new CreateProfileRequest
-            {
-                 Firstname = firstname,
-                 Lastname = lastname,
-                 sub = input.UserName
-            };
+            var serviceCollection = new ServiceCollection();
 
-            var result = await _profileManagementService.CreatePersonAsync(createPersonRequest, cancellationToken);
+            ConfigureServices(serviceCollection);
 
-            input.Response = new CognitoPreSignupResponse { AutoConfirmUser = true };
+            var serviceProvider = serviceCollection
+                .AddLogging(logging => logging.AddConsole())
+                .BuildServiceProvider();
 
-            return input;
-        }
-    }
-
-    [LambdaStartup]
-    public class Startup
-    {
-        private readonly IConfiguration _configuration;
-        public Startup(IConfiguration configuration)
-        {
-            _configuration = configuration;
+            // Get Configuration Service from DI system
+            _profileManagementService = serviceProvider.GetService<IProfileManagementService>();
         }
 
-        public void ConfigureServices(IServiceCollection services)
+        private void ConfigureServices(IServiceCollection services)
         {
-            services.AddScoped<IProfileManagementRepository, ProfileManagementRepository>();
-            services.AddScoped<IProfileManagementService, ProfileManagementService>();
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
-            services.AddScoped<IProfileOutboxRepository, ProfileOutboxRepository>();
+            // Register services with DI system
+            services.AddTransient<IProfileManagementService, ProfileManagementService>();
+            services.AddTransient<IProfileManagementRepository, ProfileManagementRepository>();
+            services.AddTransient<IProfileOutboxRepository, ProfileOutboxRepository>();
+            services.AddTransient<INsipMessageHelper, ProfileKafkaMessageProducer>();
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
 
-            var dataSettingSection = _configuration.GetSection("Data");
+            var messageBusSessings = new MessageBusSettings();
 
-            var dataSettings = dataSettingSection.Get<DatabaseSettings>;
+            var dataSettingSection = Configuration.GetSection("Data");
+
+            var dataSettings = dataSettingSection.Get<DatabaseSettings>();
+
+            services.AddOptions<MessageBusSettings>();
 
             // DbContext
             services.AddDbContext<ProfileManagementDbContext>(options =>
@@ -91,6 +90,34 @@ namespace NIHR.ProfileManagement.CognitoSignUpTrigger
 
                 options.UseMySql(connectionString, serverVersion);
             });
+        }
+
+        [LambdaFunction]
+        public async Task<CognitoPreSignupEvent> FunctionHandler(CognitoPreSignupEvent input,
+            ILambdaContext context)
+        {
+            Console.WriteLine($"FunctionHandler: {System.Text.Json.JsonSerializer.Serialize(input)}");
+
+            var firstname = input.Request.UserAttributes.FirstOrDefault(attr => attr.Key == "given_name").Value;
+            var lastname = input.Request.UserAttributes.FirstOrDefault(attr => attr.Key == "family_name").Value;
+
+            var createPersonRequest = new CreateProfileRequest
+            {
+                 Firstname = firstname,
+                 Lastname = lastname,
+                 sub = input.UserName
+            };
+
+            var ctsource = new CancellationTokenSource();
+            ctsource.CancelAfter(10000);
+
+            Console.WriteLine($"FunctionHandler: {System.Text.Json.JsonSerializer.Serialize(createPersonRequest)}");
+
+            var result = await _profileManagementService.CreatePersonAsync(createPersonRequest, ctsource.Token);
+
+            input.Response = new CognitoPreSignupResponse { AutoConfirmUser = true };
+
+            return input;
         }
     }
 }
