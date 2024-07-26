@@ -10,7 +10,7 @@
       "Properties": {
         "Handler": "NIHR.ProfileManagement.Api::NIHR.ProfileManagement.Api.LambdaEntryPoint::FunctionHandlerAsync",
         "FunctionName": "nihrd-lambda-sandbox-profile-management-api",
-        "Role": "arn:aws:iam::462580661309:role/service-role/nihrd-lambda-dev-rddi-cognito-pre-token-authorizer-role-9tzk20q8",
+        "Role": "arn:aws:iam::462580661309:role/nihrd-iam-sandbox-study-management-lambda-role",
         "Runtime": "dotnet8",
         "CodeUri": "",
         "MemorySize": 512,
@@ -24,7 +24,8 @@
         "Environment":{
             "Variables":{
                 "ProfileManagementApi__JwtBearer__Authority":"https://cognito-idp.eu-west-2.amazonaws.com/eu-west-2_adxhIfdFQ",
-                "Data__ConnectionString":"<db connection string here>"
+                "Data__ConnectionString":"<db connection string here>",
+                "Data__PasswordSecretName":""
             }
         },
         "Events": {
@@ -50,7 +51,7 @@
       "Properties": {
         "Handler": "NIHR.ProfileManagement.Authorizer::NIHR.ProfileManagement.Authorizer::FunctionHandler",
         "FunctionName": "nihrd-lambda-sandbox-profile-management-authorizer",
-        "Role": "arn:aws:iam::462580661309:role/service-role/nihrd-lambda-dev-rddi-cognito-pre-token-authorizer-role-9tzk20q8",
+        "Role": "arn:aws:iam::462580661309:role/nihrd-iam-sandbox-study-management-lambda-role",
         "Runtime": "dotnet8",
         "CodeUri": "../NIHR.ProfileManagement.Authorizer",
         "MemorySize": 512,
@@ -73,9 +74,9 @@
     "PreSignUpTriggerLambda": {
       "Type": "AWS::Serverless::Function",
       "Properties": {
-        "Handler": "NIHR.ProfileManagement.CognitoSignUpTrigger::NIHR.ProfileManagement.CognitoSignUpTrigger::FunctionHandler",
+        "Handler": "NIHR.ProfileManagement.CognitoSignUpTrigger::NIHR.PM.Signup.Function_FunctionHandler_Generated::FunctionHandler",
         "FunctionName": "nihrd-lambda-sandbox-profile-management-signup",
-        "Role": "arn:aws:iam::462580661309:role/service-role/nihrd-lambda-dev-rddi-cognito-pre-token-authorizer-role-9tzk20q8",
+        "Role": "arn:aws:iam::462580661309:role/nihrd-iam-sandbox-study-management-lambda-role",
         "Runtime": "dotnet8",
         "CodeUri": "../NIHR.ProfileManagement.CognitoSignUpTrigger",
         "MemorySize": 512,
