@@ -14,7 +14,7 @@ namespace NIHR.ProfileManagement.Api.Documentation
             {
                 sub = Guid.NewGuid().ToString(),
                 firstname = "James",
-                lastname = "007"
+                lastname = "example"
             };
         }
     }

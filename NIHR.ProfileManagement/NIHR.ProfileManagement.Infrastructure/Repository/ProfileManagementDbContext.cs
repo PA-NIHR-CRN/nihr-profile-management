@@ -60,7 +60,7 @@ namespace NIHR.ProfileManagement.Infrastructure.Repository
                     .HasConstraintName("fk_profileInfoPersonName_profile");
             });
 
-            modelBuilder.Entity<ProfileIdentity>(entity => {
+            modelBuilder.Entity<ProfileIdentityDbEntity>(entity => {
 
                 entity.ToTable("profileIdentity");
 

@@ -17,7 +17,7 @@ namespace NIHR.ProfileManagement.Infrastructure.Repository
         {
             var profileInfoDbEntity = new ProfileInfoDbEntity();
 
-            var profileIdentifier = new ProfileIdentity
+            var profileIdentifier = new ProfileIdentityDbEntity
             {
                 Sub = request.sub
             };
@@ -41,8 +41,6 @@ namespace NIHR.ProfileManagement.Infrastructure.Repository
             profileInfoDbEntity.Identities.Add(profileIdentifier);
 
             await _context.Profiles.AddAsync(profileInfoDbEntity);
-
-            //await _context.SaveChangesAsync();
 
             return new CreateProfileResponse() {
                 Profile = new ProfileInfo(profileInfoDbEntity.Created,

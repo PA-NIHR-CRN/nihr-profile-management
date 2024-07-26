@@ -17,7 +17,6 @@ namespace NIHR.ProfileManagement.Api.Controllers
             _profileManagementService = profileManagementService;
         }
 
-        [ProducesResponseType(typeof(CreateUserResponseDto), StatusCodes.Status201Created)]
         [SwaggerRequestExample(typeof(CreateUserRequestDto), typeof(CreateNewProfileRequestExample))]
         [HttpPost]
         public async Task<IActionResult> CreateAsync(CreateUserRequestDto createUserRequestDto, CancellationToken cancellationToken)

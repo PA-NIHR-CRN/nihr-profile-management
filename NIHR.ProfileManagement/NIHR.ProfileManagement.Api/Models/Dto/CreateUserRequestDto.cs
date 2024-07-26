@@ -8,8 +8,4 @@
         public string lastname { get; set; }
 
     }
-
-    public class CreateUserResponseDto
-    {
-    }
 }
