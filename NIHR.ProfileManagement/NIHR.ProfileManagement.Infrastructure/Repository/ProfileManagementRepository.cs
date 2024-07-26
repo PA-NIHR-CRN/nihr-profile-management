@@ -24,14 +24,20 @@ namespace NIHR.ProfileManagement.Infrastructure.Repository
 
             profileInfoDbEntity.Identities.Add(profileIdentifier);
 
-            var personNameDbEntity = new PersonNameDbEntity
+			// "sub" is the only mandatory field we can expect. Everything else is optional
+            if(!string.IsNullOrEmpty(request.Firstname)
+                && !string.IsNullOrEmpty(request.Lastname))
             {
-                Family = request.Lastname,
-                Given = request.Firstname,
-                ProfileInfo = profileInfoDbEntity
-            };
+                var personNameDbEntity = new PersonNameDbEntity
+                {
+                    Family = request.Lastname,
+                    Given = request.Firstname,
+                    ProfileInfo = profileInfoDbEntity
+                };
 
-            profileInfoDbEntity.Names.Add(personNameDbEntity);
+                profileInfoDbEntity.Names.Add(personNameDbEntity);
+            }
+
             profileInfoDbEntity.Identities.Add(profileIdentifier);
 
             await _context.Profiles.AddAsync(profileInfoDbEntity);
@@ -40,8 +46,8 @@ namespace NIHR.ProfileManagement.Infrastructure.Repository
 
             return new CreateProfileResponse() {
                 Profile = new ProfileInfo(profileInfoDbEntity.Created,
-                profileInfoDbEntity.Names.First().Given,
-                profileInfoDbEntity.Names.First().Family,
+                profileInfoDbEntity.Names.FirstOrDefault()?.Given ?? "",
+                profileInfoDbEntity.Names.FirstOrDefault()?.Family ?? "",
                 profileInfoDbEntity.Identities.First().Sub)
             };
         }

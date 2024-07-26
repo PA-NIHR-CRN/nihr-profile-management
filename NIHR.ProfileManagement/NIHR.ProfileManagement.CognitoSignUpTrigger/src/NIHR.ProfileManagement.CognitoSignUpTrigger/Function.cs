@@ -17,7 +17,9 @@ using System.Threading;
 // Assembly attribute to enable the Lambda function's JSON input to be converted into a .NET class.
 [assembly: LambdaSerializer(typeof(Amazon.Lambda.Serialization.SystemTextJson.DefaultLambdaJsonSerializer))]
 
-namespace NIHR.ProfileManagement.CognitoSignUpTrigger
+// Have to shorten this target namespace as AWS Lambda only allows the Function handler a total of 128 character
+// which includes Assemblyname::Namespace::Class::Method
+namespace NIHR.PM.Signup
 {
     public class Function
     {
@@ -26,7 +28,7 @@ namespace NIHR.ProfileManagement.CognitoSignUpTrigger
         private IConfiguration Configuration { get; set; }
 
         public Function(IProfileManagementService profileManagementService)
-        { 
+        {
             _profileManagementService = profileManagementService;
         }
 
@@ -96,8 +98,6 @@ namespace NIHR.ProfileManagement.CognitoSignUpTrigger
         public async Task<CognitoPreSignupEvent> FunctionHandler(CognitoPreSignupEvent input,
             ILambdaContext context)
         {
-            Console.WriteLine($"FunctionHandler: {System.Text.Json.JsonSerializer.Serialize(input)}");
-
             var firstname = input.Request.UserAttributes.FirstOrDefault(attr => attr.Key == "given_name").Value;
             var lastname = input.Request.UserAttributes.FirstOrDefault(attr => attr.Key == "family_name").Value;
 
@@ -111,11 +111,9 @@ namespace NIHR.ProfileManagement.CognitoSignUpTrigger
             var ctsource = new CancellationTokenSource();
             ctsource.CancelAfter(10000);
 
-            Console.WriteLine($"FunctionHandler: {System.Text.Json.JsonSerializer.Serialize(createPersonRequest)}");
-
             var result = await _profileManagementService.CreatePersonAsync(createPersonRequest, ctsource.Token);
 
-            input.Response = new CognitoPreSignupResponse { AutoConfirmUser = true };
+            input.Response = new CognitoPreSignupResponse();
 
             return input;
         }
