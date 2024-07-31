@@ -1,0 +1,65 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34728.123
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIHR.ProfileManagement.Domain", "NIHR.ProfileManagement.Domain\NIHR.ProfileManagement.Domain.csproj", "{83B3BA01-0B38-4849-927A-5638A77F077B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIHR.ProfileManagement.Infrastructure", "NIHR.ProfileManagement.Infrastructure\NIHR.ProfileManagement.Infrastructure.csproj", "{B957052F-68AB-4B25-8DC5-C242FBC7AB13}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIHR.ProfileManagement.Api", "NIHR.ProfileManagement.Api\NIHR.ProfileManagement.Api.csproj", "{18479683-6DC8-40BF-95AE-353D367FE378}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIHR.ProfileManagement.Authorizer", "NIHR.ProfileManagement.Authorizer\NIHR.ProfileManagement.Authorizer.csproj", "{ED4DEFCB-EFAA-4DFF-9FCE-DBCCB6FAA405}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIHR.ProfileManagement.OutboxProcessor", "NIHR.ProfileManagement.OutboxProcessor\NIHR.ProfileManagement.OutboxProcessor.csproj", "{D9E843EE-A528-4A1B-9604-D0F4908C82EB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIHR.ProfileManagement.CognitoSignUpTrigger", "NIHR.ProfileManagement.CognitoSignUpTrigger\src\NIHR.ProfileManagement.CognitoSignUpTrigger\NIHR.ProfileManagement.CognitoSignUpTrigger.csproj", "{86465CCF-9048-4915-AA9E-F465D9A96B9E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DatabaseScripts", "DatabaseScripts", "{8CDB625C-E6E6-455A-BA07-73F45D8B64D7}"
+	ProjectSection(SolutionItems) = preProject
+		..\DatabaseScripts\01-DatabaseUp.sql = ..\DatabaseScripts\01-DatabaseUp.sql
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentation", "{4E6C8AFC-BF94-45A6-9F1F-C63AF05E518E}"
+	ProjectSection(SolutionItems) = preProject
+		..\README.md = ..\README.md
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{83B3BA01-0B38-4849-927A-5638A77F077B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{83B3BA01-0B38-4849-927A-5638A77F077B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{83B3BA01-0B38-4849-927A-5638A77F077B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{83B3BA01-0B38-4849-927A-5638A77F077B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B957052F-68AB-4B25-8DC5-C242FBC7AB13}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B957052F-68AB-4B25-8DC5-C242FBC7AB13}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B957052F-68AB-4B25-8DC5-C242FBC7AB13}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B957052F-68AB-4B25-8DC5-C242FBC7AB13}.Release|Any CPU.Build.0 = Release|Any CPU
+		{18479683-6DC8-40BF-95AE-353D367FE378}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{18479683-6DC8-40BF-95AE-353D367FE378}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{18479683-6DC8-40BF-95AE-353D367FE378}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{18479683-6DC8-40BF-95AE-353D367FE378}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED4DEFCB-EFAA-4DFF-9FCE-DBCCB6FAA405}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED4DEFCB-EFAA-4DFF-9FCE-DBCCB6FAA405}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED4DEFCB-EFAA-4DFF-9FCE-DBCCB6FAA405}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED4DEFCB-EFAA-4DFF-9FCE-DBCCB6FAA405}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D9E843EE-A528-4A1B-9604-D0F4908C82EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9E843EE-A528-4A1B-9604-D0F4908C82EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9E843EE-A528-4A1B-9604-D0F4908C82EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9E843EE-A528-4A1B-9604-D0F4908C82EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{86465CCF-9048-4915-AA9E-F465D9A96B9E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{86465CCF-9048-4915-AA9E-F465D9A96B9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{86465CCF-9048-4915-AA9E-F465D9A96B9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{86465CCF-9048-4915-AA9E-F465D9A96B9E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9335A976-E92E-467D-A658-6C4032FB9228}
+	EndGlobalSection
+EndGlobal

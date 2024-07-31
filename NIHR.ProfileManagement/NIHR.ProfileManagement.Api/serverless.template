@@ -1,0 +1,104 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Transform": "AWS::Serverless-2016-10-31",
+  "Description": "Lambda functions and API template for sandbox deployment of RDDI Profile Management components.",
+  "Parameters": {},
+  "Conditions": {},
+  "Resources": {
+    "AspNetCoreFunction": {
+      "Type": "AWS::Serverless::Function",
+      "Properties": {
+        "Handler": "NIHR.ProfileManagement.Api::NIHR.ProfileManagement.Api.LambdaEntryPoint::FunctionHandlerAsync",
+        "FunctionName": "nihrd-lambda-sandbox-profile-management-api",
+        "Role": "arn:aws:iam::462580661309:role/nihrd-iam-sandbox-study-management-lambda-role",
+        "Runtime": "dotnet8",
+        "CodeUri": "",
+        "MemorySize": 512,
+        "Timeout": 30,
+        "Policies": [],
+        "Tags":{
+            "Environment":"sandbox",
+            "Name":"nihrd-lambda-sandbox-profile-management-api",
+            "System":"rddi-profile-management"
+        },
+        "Environment":{
+            "Variables":{
+                "ProfileManagementApi__JwtBearer__Authority":"https://cognito-idp.eu-west-2.amazonaws.com/eu-west-2_adxhIfdFQ",
+                "Data__ConnectionString":"<db connection string here>",
+                "Data__PasswordSecretName":""
+            }
+        },
+        "Events": {
+          "ProxyResource": {
+            "Type": "Api",
+            "Properties": {
+              "Path": "/{proxy+}",
+              "Method": "ANY"
+            }
+          },
+          "RootResource": {
+            "Type": "Api",
+            "Properties": {
+              "Path": "/",
+              "Method": "ANY"
+            }
+          }
+        }
+      }
+    },
+    "AuthorizerLambda": {
+      "Type": "AWS::Serverless::Function",
+      "Properties": {
+        "Handler": "NIHR.ProfileManagement.Authorizer::NIHR.ProfileManagement.Authorizer::FunctionHandler",
+        "FunctionName": "nihrd-lambda-sandbox-profile-management-authorizer",
+        "Role": "arn:aws:iam::462580661309:role/nihrd-iam-sandbox-study-management-lambda-role",
+        "Runtime": "dotnet8",
+        "CodeUri": "../NIHR.ProfileManagement.Authorizer",
+        "MemorySize": 512,
+        "Timeout": 30,
+        "Policies": [],
+        "Tags":{
+            "Environment":"sandbox",
+            "Name":"nihrd-lambda-sandbox-profile-management-api",
+            "System":"rddi-profile-management"
+        },
+        "Environment":{
+            "Variables":{
+                "WSO2_SERVICE_AUDIENCES":"1t42eotpki9d6b5bl3n8all6ji",
+                "WSO2_SERVICE_ISSUER":"https://dev.id.nihr.ac.uk:443/oauth2/token",
+                "WSO2_SERVICE_TOKEN_ENDPOINT":"https://dev.id.nihr.ac.uk/oauth2/oidcdiscovery"
+            }
+        }
+      }
+    },
+    "PreSignUpTriggerLambda": {
+      "Type": "AWS::Serverless::Function",
+      "Properties": {
+        "Handler": "NIHR.ProfileManagement.CognitoSignUpTrigger::NIHR.PM.Signup.Function_FunctionHandler_Generated::FunctionHandler",
+        "FunctionName": "nihrd-lambda-sandbox-profile-management-signup",
+        "Role": "arn:aws:iam::462580661309:role/nihrd-iam-sandbox-study-management-lambda-role",
+        "Runtime": "dotnet8",
+        "CodeUri": "../NIHR.ProfileManagement.CognitoSignUpTrigger",
+        "MemorySize": 512,
+        "Timeout": 30,
+        "Policies": [],
+        "Tags":{
+            "Environment":"sandbox",
+            "Name":"nihrd-lambda-sandbox-profile-management",
+            "System":"rddi-profile-management"
+        },
+        "VpcConfig":{
+            "SecurityGroupIds":["sg-0ef1522d0dc87ebde", "sg-02ca7dc5b6c22f86a", "sg-0b80f3f34f0a80e31"],
+            "SubnetIds":["subnet-036934130e6e171db", "subnet-08301b8a8d127a1e5", "subnet-04c549421f430d61f"]
+        },
+        "Environment":{
+            "Variables":{
+                "Data__ConnectionString":"<db connection string here>",
+                "Data__PasswordSecretName":""
+            }
+        },
+        "Events":{}
+      }
+    }
+  }
+}
